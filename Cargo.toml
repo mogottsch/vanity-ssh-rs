@@ -36,3 +36,7 @@ criterion = { version = "0.6.0", features = ["html_reports"] }
 [[bench]]
 name = "key_generation"
 harness = false
+
+[[bench]]
+name = "key_generation_sweep"
+harness = false

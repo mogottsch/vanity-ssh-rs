@@ -108,9 +108,7 @@ pub fn public_key_matches_pattern(keypair: &KeyPair, pattern: &Pattern) -> bool 
     }
 }
 
-fn create_openssh_public_key_from_keypair(
-    keypair: &KeyPair,
-) -> ssh_key::public::PublicKey {
+fn create_openssh_public_key_from_keypair(keypair: &KeyPair) -> ssh_key::public::PublicKey {
     let public_bytes = keypair.public_key.to_bytes();
     let ed25519_public = Ed25519PublicKey::try_from(&public_bytes[..]).unwrap();
     ssh_key::public::PublicKey::from(ed25519_public)
