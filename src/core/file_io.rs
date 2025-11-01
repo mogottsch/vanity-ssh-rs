@@ -1,8 +1,12 @@
 use crate::core::keypair::KeyPair;
 use ssh_key::LineEnding;
 use ssh_key::private::{Ed25519Keypair, PrivateKey};
-use std::fs;
+use std::fs::{self, OpenOptions};
+use std::io::Write;
 use std::path::Path;
+
+#[cfg(unix)]
+use std::os::unix::fs::PermissionsExt;
 
 pub fn save_keypair_to_files(keypair: &KeyPair, filename: &str) -> std::io::Result<()> {
     create_out_directory()?;
@@ -19,6 +23,10 @@ pub fn save_keypair_to_files(keypair: &KeyPair, filename: &str) -> std::io::Resu
 fn create_out_directory() -> std::io::Result<()> {
     if !Path::new("out").exists() {
         fs::create_dir("out")?;
+        #[cfg(unix)]
+        {
+            fs::set_permissions("out", fs::Permissions::from_mode(0o700))?;
+        }
     }
     Ok(())
 }
@@ -39,5 +47,17 @@ fn write_public_key_to_file(private_key: &PrivateKey, filename: &str) -> std::io
 fn write_private_key_to_file(private_key: &PrivateKey, suffix: &str) -> std::io::Result<()> {
     let pem = private_key.to_openssh(LineEnding::LF).unwrap();
     let filename = format!("out/{}", suffix);
-    std::fs::write(filename, pem.as_str())
+    {
+        let mut file = OpenOptions::new()
+            .create(true)
+            .write(true)
+            .truncate(true)
+            .open(&filename)?;
+        file.write_all(pem.as_bytes())?;
+    }
+    #[cfg(unix)]
+    {
+        fs::set_permissions(&filename, fs::Permissions::from_mode(0o600))?;
+    }
+    Ok(())
 }
