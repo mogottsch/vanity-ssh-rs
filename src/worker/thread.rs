@@ -38,12 +38,13 @@ pub fn run_worker_loop(
             break;
         }
 
-        if let Some((key_pair, pattern)) = generate_and_check_batch(&patterns) {
+        let result = generate_and_check_batch(&patterns);
+        local_attempts += BATCH_SIZE as u64;
+
+        if let Some((key_pair, pattern)) = result {
             send_success(&tx, key_pair, local_attempts, pattern);
             break;
         }
-
-        local_attempts += BATCH_SIZE as u64;
 
         if local_attempts % 10000 == 0 {
             send_progress_update(&tx, local_attempts);
