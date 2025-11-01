@@ -44,3 +44,12 @@ vanity-ssh-rs yee -t 8
 ```
 
 Generated keys are saved to the `out/` directory.
+
+## Benchmarking
+
+Run benchmarks to measure key generation performance:
+
+```bash
+cargo bench --bench key_generation
+```
+
