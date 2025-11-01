@@ -7,7 +7,7 @@ pub fn generate_and_check_batch(patterns: &[Pattern]) -> Option<(KeyPair, Patter
     for keypair in keypairs {
         if let Some(pattern) = patterns
             .iter()
-            .find(|p| public_key_matches_pattern(&keypair.public_key, p))
+            .find(|p| public_key_matches_pattern(&keypair, p))
         {
             return Some((keypair, pattern.clone()));
         }

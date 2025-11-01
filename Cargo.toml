@@ -12,12 +12,14 @@ categories = ["cryptography", "command-line-utilities"]
 [dependencies]
 base64 = "0.22.1"
 clap = { version = "4.5.40", features = ["derive"] }
+curve25519-dalek = { version = "4.1", features = ["alloc"] }
 ed25519-dalek = { version = "2.1.1", features = [
     "rand_core",
     "pkcs8",
     "alloc",
     "pem",
     "std",
+    "hazmat",
 ] }
 humantime = "2.2.0"
 indicatif = "0.17.11"

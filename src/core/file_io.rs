@@ -33,7 +33,7 @@ fn create_out_directory() -> std::io::Result<()> {
 
 fn create_ssh_keypair_from_ed25519_keys(keypair: &KeyPair) -> Ed25519Keypair {
     let mut key_bytes = [0u8; 64];
-    key_bytes[..32].copy_from_slice(&keypair.private_key.to_bytes());
+    key_bytes[..32].copy_from_slice(&keypair.secret_key);
     key_bytes[32..].copy_from_slice(&keypair.public_key.to_bytes());
     Ed25519Keypair::from_bytes(&key_bytes).unwrap()
 }
