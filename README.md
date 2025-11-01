@@ -2,20 +2,45 @@
 
 Generate SSH key pairs with custom patterns in the public key.
 
+![screenshot](screenshot.png)
+
+## Install
+
 ```bash
-# Install
 cargo install vanity-ssh-rs
-
-# Usage
-vanity-ssh-rs <pattern1> [<pattern2> ...] [-t <threads>] [--ntfy <topic>]
-
-# Examples
-# Match any of several suffixes or regex patterns
-vanity-ssh-rs yee woo "/(?i)hello/"
-
-# Match with ntfy notification
-vanity-ssh-rs yee woo --ntfy mytopic
 ```
 
-- `pattern`: The pattern to match in the public key. Use `/regex/` for regex patterns, otherwise matches suffix. You can specify multiple patterns; any match will be accepted.
-- `--ntfy <topic>`: Send a notification to the given [ntfy.sh](https://ntfy.sh) topic when a key is found (optional).
+## Usage
+
+```bash
+vanity-ssh-rs <pattern1> [<pattern2> ...] [-t <threads>] [--ntfy <topic>]
+```
+
+**Patterns:**
+
+- Plain text: matches suffix (e.g., `yee` matches keys ending with "yee")
+- `/regex/`: matches regex pattern (e.g., `/(?i)hello/` for case-insensitive "hello")
+- Multiple patterns: any match will be accepted
+
+**Options:**
+
+- `-t <threads>`: Number of threads (defaults to CPU count)
+- `--ntfy <topic>`: Send notification to [ntfy.sh](https://ntfy.sh) topic when found
+
+## Examples
+
+```bash
+# Find a key ending with "yee"
+vanity-ssh-rs yee
+
+# Match any of several patterns
+vanity-ssh-rs yee woo "/(?i)hello/"
+
+# With notification when found
+vanity-ssh-rs yee --ntfy mytopic
+
+# Use more threads for faster generation
+vanity-ssh-rs yee -t 8
+```
+
+Generated keys are saved to the `out/` directory.
