@@ -3,8 +3,9 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::mpsc::Sender;
 use std::thread;
 
+use crate::core::keypair::BATCH_SIZE;
 use crate::core::pattern::Pattern;
-use crate::worker::generator::generate_and_check_key;
+use crate::worker::generator::generate_and_check_batch;
 use crate::worker::message::WorkerMessage;
 
 use super::message::SearchHit;
@@ -36,9 +37,11 @@ pub fn run_worker_loop(
         if stop_flag.load(Ordering::Relaxed) {
             break;
         }
-        local_attempts += 1;
 
-        if let Some((key_pair, pattern)) = generate_and_check_key(&patterns) {
+        let result = generate_and_check_batch(&patterns);
+        local_attempts += BATCH_SIZE as u64;
+
+        if let Some((key_pair, pattern)) = result {
             send_success(&tx, key_pair, local_attempts, pattern);
             break;
         }
