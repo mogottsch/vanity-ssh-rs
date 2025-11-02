@@ -51,4 +51,3 @@ criterion_group!(
     bench_check_suffix_batch_sweep,
 );
 criterion_main!(benches);
-

@@ -46,7 +46,7 @@ pub fn run_worker_loop(
             break;
         }
 
-        if local_attempts % 10000 == 0 {
+        if local_attempts >= 1000 {
             send_progress_update(&tx, local_attempts);
             local_attempts = 0;
         }
