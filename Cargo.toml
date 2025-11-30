@@ -12,7 +12,7 @@ categories = ["cryptography", "command-line-utilities"]
 [dependencies]
 base64 = "0.22.1"
 clap = { version = "4.5.40", features = ["derive"] }
-curve25519-dalek = { version = "=5.0.0-pre.1", features = ["alloc"] }
+curve25519-dalek = { version = "=5.0.0-pre.2", features = ["alloc"] }
 ed25519-dalek = { version = "3.0.0-pre.1", features = [
     "rand_core",
     "pkcs8",
@@ -21,17 +21,17 @@ ed25519-dalek = { version = "3.0.0-pre.1", features = [
     "hazmat",
 ] }
 humantime = "2.2.0"
-indicatif = "0.17.11"
+indicatif = "0.18.0"
 num-format = "0.4.4"
 num_cpus = "1.17.0"
-rand = "0.8"
+rand = "0.9"
 rayon = "1.10.0"
 regex = "1.11.1"
-reqwest = { version = "0.11", features = ["blocking", "json"] }
+reqwest = { version = "0.12", features = ["blocking", "json"] }
 ssh-key = "0.6.7"
 
 [dev-dependencies]
-criterion = { version = "0.6.0", features = ["html_reports"] }
+criterion = { version = "0.8.0", features = ["html_reports"] }
 
 [[bench]]
 name = "key_generation"
